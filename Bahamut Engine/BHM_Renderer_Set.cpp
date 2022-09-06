@@ -13,10 +13,11 @@ void BHM_Renderer_Set::BHM_AddRenderer(shared_ptr<BHM_Renderer> renderer){
 
 void BHM_Renderer_Set::BHM_Render(){
 	list<shared_ptr<BHM_Renderer>> currentRenderers = *(this->renderers);
+
 	for(auto & renderer : currentRenderers){
 		renderer->BHM_StartInitialize();
 	}
-
+	
 	for(auto & renderer : currentRenderers){
 		renderer->BHM_StartLoop();
 	}
@@ -25,6 +26,8 @@ void BHM_Renderer_Set::BHM_Render(){
 		renderer->BHM_InitializeComponents();
 	}
 	
+	cout << "Starting loop agora\n";
+	system("pause");
 	for(auto & renderer : currentRenderers){
 		renderer->BHM_LoopComponents();
 	}

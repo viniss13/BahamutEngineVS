@@ -4,6 +4,7 @@
 #include "BHM_Standard_GUI.hpp"
 
 class BHM_Runner;
+class BHM_Standard_GUI;
 
 class BHM_Config {
 	private:

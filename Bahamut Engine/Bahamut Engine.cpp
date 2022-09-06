@@ -117,10 +117,6 @@ int main(int argc, char* args[])
         if (i == 0) {
             BHM_Config::standardGUI->BHM_LoadTexture("grumpy.jpg");
           //  BHM_Texture* bhm_texture = new BHM_Texture();
-            SDL_QueryTexture(texture, NULL, NULL, &w, &h);
-
-            cout << w << "\n";
-            cout << h << "\n";
             i++;
         }
         BHM_Config::standardGUI->BHM_PresentScene();

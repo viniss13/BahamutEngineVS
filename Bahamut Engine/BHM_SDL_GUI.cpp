@@ -34,13 +34,13 @@ void BHM_SDL_GUI::BHM_PrepareScene(){
 
 void BHM_SDL_GUI::BHM_PresentScene()
 {
-	//SDL_Rect dest;
+	SDL_Rect dest;
 
-	//dest.x = 100;
-	//dest.y = 100;
-	//dest.w = w;
-	//dest.h = h;
-	//SDL_RenderCopy(renderer, texture, NULL, &dest);
+	dest.x = 100;
+	dest.y = 100;
+	dest.w = w;
+	dest.h = h;
+	SDL_RenderCopy(renderer, texture, NULL, &dest);
 	SDL_RenderPresent(renderer);
 }
 
@@ -66,41 +66,27 @@ void BHM_SDL_GUI::BHM_Draw(BHM_Sprite* sprite){
 }
 
 void BHM_SDL_GUI::BHM_LoadTexture(string path){
-	//texture = IMG_LoadTexture(renderer, path.c_str());
-	//SDL_QueryTexture(texture, NULL, NULL, &w, &h);
-	//BHM_Texture* texture = new BHM_Texture();
-	/*
-	system("pause");
-	SDL_Texture* texture = NULL;
-	if (renderer != NULL) {
-		cout << "Renderer nao eh nulo\n";
-		texture = testeSDL(path);
-		if (texture != NULL) cout << "Texture nao eh nulo\n";
+	if (!this->BHM_TextureExists(path)) {
+		SDL_Texture* sdl_texture = IMG_LoadTexture(renderer, path.c_str());
+
+		if (sdl_texture == nullptr) {
+			cout << path << " not found\n";
+			return;
+		}
+		int width = 0;
+		int height = 0;
+		SDL_QueryTexture(sdl_texture, NULL, NULL, &width, &height);
+
+		BHM_Rectangle* rect = new BHM_Rectangle(width, height);
+
+		BHM_Texture* bhm_texture = new BHM_Texture(path, rect, sdl_texture);
+
+		textures[path] = bhm_texture;
 	}
-	
-	//BHM_Texture* bhm_texture1 = new BHM_Texture();
-	
-	if(texture == NULL){
-		cout << "Error on loading texture: " << path;
-		system("pause");
-		return;
-	} 
-	int w = 0;
-	int h = 0;
-
-	SDL_QueryTexture(texture, NULL, NULL, &w, &h);
-	*/
-
-	//BHM_Rectangle* rectangle = new BHM_Rectangle(w, h);
-	//BHM_Texture* bhm_texture  = new BHM_Texture(path, rectangle, texture);
-
-	//textures[1] = bhm_texture;
-	//this->testeSDL(path, bhm_texture);
+	else {
+		cout << "Texture Already Exists\n";
+	}
 }
-
-/*SDL_Texture* BHM_SDL_GUI::testeSDL(string path) {
-	return IMG_LoadTexture(renderer, path.c_str());
-}*/
 
 void BHM_SDL_GUI::BHM_DoInput(){
 	SDL_Event event;
@@ -125,5 +111,13 @@ void BHM_SDL_GUI::BHM_DoInput(){
 				break;
 		}
 	}
+}
+
+bool BHM_SDL_GUI::BHM_TextureExists(string path)
+{
+	if (textures.find(path) == textures.end()) {
+		return false;
+	}
+	else return true;
 }
 

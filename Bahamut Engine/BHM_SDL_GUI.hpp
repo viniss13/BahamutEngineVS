@@ -12,7 +12,9 @@ public:
 	void BHM_Draw(BHM_Sprite* sprite);
 	void BHM_LoadTexture(string path);
 	void BHM_DoInput();
-	//SDL_Texture* testeSDL(string path);
+
+	// Inherited via BHM_Standard_GUI
+	virtual bool BHM_TextureExists(string path) override;
 	
 private:
 	int w = 0;

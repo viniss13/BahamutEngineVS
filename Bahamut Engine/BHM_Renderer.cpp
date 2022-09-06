@@ -26,7 +26,7 @@ void BHM_Renderer::BHM_Loop(){
 bool BHM_Renderer::BHM_AddComponent(shared_ptr<BHM_Component> component){
 	if(component->BHM_SetRenderer(this)){
 		components->push_back(component);
-		cout << "Component added" << endl;
+		cout << "Component added\n";
 		return true;
 	}
 
@@ -60,10 +60,8 @@ bool BHM_Renderer::BHM_AddComponentToQueue(shared_ptr<BHM_Component> component){
 
 bool BHM_Renderer::BHM_AddFullSpriteToQueue(shared_ptr<BHM_Sprite> sprite, int layer){
 	if(!this->BHM_AddToQueue(sprite)) return false;
-
 	//BHM_Full_Sprite_Bond_Command* fsbc;
 	sprite->BHM_AddBondCommand(new BHM_Full_Sprite_Bond_Command(layer));
-
 	return true;
 }
 
@@ -100,9 +98,15 @@ void BHM_Renderer::BHM_InitializeComponents(){
 
 	auto componentBond = initializingComponents->begin();
 	while (componentBond != initializingComponents->end()) {
+		cout << "Estou aqui 1\n";
+		system("pause");
 		if (componentBond->lock() != NULL) {
 			BHM_Component* component = componentBond->lock()->BHM_GetComponent();
+			cout << "Estou aqui 2\n";
+			system("pause");
 			component->BHM_DeleteBond(componentBond->lock());
+			cout << "Estou aqui 3\n";
+			system("pause");
 			component->BHM_GetBondCommand()->BHM_Execute(component);
 			component->BHM_StartInitialize();
 		}
@@ -141,6 +145,6 @@ void BHM_Renderer::BHM_RenderSprites(int layer){
 	int i = 0;
 	bhm_utils::for_each(spritesLayer, [&i](auto & bond){
 		cout << "Rendering" << "\n";
-		BHM_Config::standardGUI->BHM_Draw(dynamic_cast<BHM_Sprite*>(bond->lock()->BHM_GetComponent()));
+		//BHM_Config::standardGUI->BHM_Draw(dynamic_cast<BHM_Sprite*>(bond->lock()->BHM_GetComponent()));
 	});
 }
